@@ -19,7 +19,6 @@ export default class QuizView extends Component {
   }
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
-
     return {
       title: params ? params.otherParam : 'Quiz',
     }

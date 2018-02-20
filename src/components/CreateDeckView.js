@@ -15,9 +15,8 @@ export default class CreateDeckView extends Component {
   }
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
-
     return {
-      title: params ? params.otherParam : 'Quiz',
+      title: params ? params.otherParam : 'Create Deck View',
     }
   }
 

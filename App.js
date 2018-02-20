@@ -8,7 +8,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 import NotFound from './src/components/NotFound'
 import Home from './src/components/Home'
-import DeckView from './src/components/DeckView'
+import DeckDetailsView from './src/components/DeckDetailsView'
 import QuizView from './src/components/QuizView'
 import CreateDeckView from './src/components/CreateDeckView'
 import CreateCardView from './src/components/CreateCardView'
@@ -28,52 +28,32 @@ const MainNavigator = StackNavigator(
   {
     Home: {
       screen: Home,
-      navigationOptions: {
-        headerTintColor: 'white',
-        headerStyle: {
-          backgroundColor: 'blue',
-        }
-      },
     },
-    DeckView: {
-      screen: DeckView,
-      navigationOptions: {
-        headerTintColor: 'white',
-        headerStyle: {
-          backgroundColor: 'blue',
-        }
-      }
+    DeckDetailsView: {
+      screen: DeckDetailsView,
     },
     QuizView: {
       screen: QuizView,
-      navigationOptions: {
-        headerTintColor: 'white',
-        headerStyle: {
-          backgroundColor: 'blue',
-        }
-      }
     },
     CreateCardView: {
       screen: CreateCardView,
-      navigationOptions: {
-        headerTintColor: 'white',
-        headerStyle: {
-          backgroundColor: 'blue',
-        }
-      }
     },
     CreateDeckView: {
       screen: CreateDeckView,
-      navigationOptions: {
-        headerTintColor: 'white',
-        headerStyle: {
-          backgroundColor: 'blue',
-        }
-      }
     },
   },
   {
     initialRouteName: 'Home',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#f4509e',
+      },
+      headerTintColor: '#ffffff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerBackTitle: 'back',
+    },
   }
 )
 
