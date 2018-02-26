@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
-import { View, Text, Button, ScrollView } from 'react-native'
+import { View, Text, Button, ScrollView, StyleSheet } from 'react-native'
 import TextButton from './TextButton'
 import NotFound from './NotFound'
+import { connect } from 'react-redux'
+import * as actions from '../actions'
 
 /*
   Individual Deck View
-  displays the title of the Deck
-  displays the number of cards in the deck
+  displays the title of the Deck -DONE
+  displays the number of cards in the deck -DONE
   displays an option to start a quiz on this specific deck
   An option to add a new question to the deck
 */
 
-export default class DeckDetailsView extends Component {
+class DeckDetailsView extends Component {
   constructor(props) {
     super(props)
   }
@@ -28,17 +30,53 @@ export default class DeckDetailsView extends Component {
   }
 
   render() {
+    const { title, noOfCards } = this.props.navigation.state.params
     return(
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-           title="Add Card"
-           onPress={() => this.props.navigation.navigate('CreateCardView')}
-         />
-         <Button
-            title="Start Quiz"
-            onPress={() => this.props.navigation.navigate('QuizView')}
-          />
+        <View style={{ marginTop: 30 }}>
+          <Text style={styles.heading}>{title}</Text>
+        </View>
+        <View style={{alignSelf: 'center' }}>
+          <Text style={styles.paragraph}>{noOfCards} cards</Text>
+        </View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 80}}>
+          <Button
+             title="Add Card"
+             onPress={() => this.props.navigation.navigate('CreateCardView')}
+           />
+           <Button
+              title="Start Quiz"
+              onPress={() => this.props.navigation.navigate('QuizView')}
+            />
+        </View>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  touchContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 80,
+    backgroundColor: '#f4509e',
+    width: 300,
+  },
+  heading: {
+    color: '#f4509e',
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  paragraph: {
+    color: '#f4509e',
+    fontSize: 15,
+    fontWeight: 'normal',
+  }
+})
+
+// function mapStateToProps(state) {
+//   return { todos: state.todos }
+// }
+
+export default connect(null, actions)(DeckDetailsView)
