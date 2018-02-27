@@ -9,33 +9,36 @@ import * as actions from '../actions'
   An option to enter in the title for the new deck -DONE
   An option to submit the new deck title -DONE
 
-  Submit the data and navigate back
+  Submit the data and navigate back -DONE
+  The view includes a form for creating a new deck - which should just be an input for the title and a 'Create Deck' button.
+  Pressing the button correctly creates the deck and routes the user to the Individual Deck view for the new deck.
 */
 
 class CreateDeckView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      text: '',
+      title: '',
     }
   }
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
-      title: params ? params.otherParam : 'Create Deck View',
+      title: params ? params.title : 'Create Deck View',
     }
   }
 
   submitCard = () => {
     // Add question
-    const { text } = this.state
-    if (!text) {
+    const { title } = this.state
+    if (!title) {
       return
     }
-    console.log(this.props)
-    this.props.addDeck(text)
+    this.props.addDeck(title)
     // Navigate back
-    this.props.navigation.goBack()
+    this.props.navigation.navigate('DeckDetailsView', {
+      title,
+    })
   }
 
   render() {
@@ -48,8 +51,8 @@ class CreateDeckView extends Component {
           <TextInput
             placeholder='Enter a title'
             style={styles.titleInput}
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
+            onChangeText={(title) => this.setState({title})}
+            value={this.state.title}
           />
         </View>
         <Button

@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { View, Text, Button, StyleSheet, TextInput } from 'react-native'
 import TextButton from './TextButton'
 import NotFound from './NotFound'
+import { connect } from 'react-redux'
+import * as actions from '../actions'
+
 
 /*
   New Question View
@@ -9,10 +12,10 @@ import NotFound from './NotFound'
   An option to enter in the answer -DONE
   An option to submit the new question -DONE
 
-  Submit the data and navigate back
+  Submit the data and navigate back -DONE
 */
 
-export default class CreateCardView extends Component {
+class CreateCardView extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -23,12 +26,21 @@ export default class CreateCardView extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
-      title: params ? params.otherParam : 'Create Card View',
+      title: params ? params.title : 'Create Card View',
     }
   }
 
   submitQuestion = () => {
     // Add question
+    const { question, answer } = this.state
+    const { title } = this.props.navigation.state.params
+    if (!question || !answer) {
+      return
+    }
+    this.props.addQuiz(title, {
+      question,
+      answer,
+    })
     // Navigate back
     this.props.navigation.goBack()
   }
@@ -86,3 +98,5 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   }
 })
+
+export default connect(null, actions)(CreateCardView)

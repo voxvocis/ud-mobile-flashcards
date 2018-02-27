@@ -1,25 +1,18 @@
 import React, { Component } from 'react'
 import { View, Text, Button, ScrollView, StyleSheet } from 'react-native'
+import { connect } from 'react-redux'
 import TextButton from './TextButton'
 import DeckView from './DeckView'
+import * as actions from '../actions'
 
 /*
   Deck List View (Default View)
   displays the title of each Deck -DONE
   displays the number of cards in each deck -DONE
-  use real data
+  use real data -DONE
 */
 
-const mockData = [
-  {title: 'React.js', noOfCard: 5},
-  {title: 'Redux', noOfCard: 2},
-  {title: 'React Native', noOfCard: 10},
-  {title: 'React Navigation', noOfCard: 3},
-  {title: 'Expo', noOfCard: 6},
-  {title: 'es6', noOfCard: 6},
-]
-
-export default class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props)
   }
@@ -27,24 +20,26 @@ export default class Home extends Component {
     title: 'Decks',
   }
 
-  onPressDeckDetails = (title, noOfCards) => {
+  onPressDeckDetails = (title) => {
     this.props.navigation.navigate('DeckDetailsView', {
       title,
-      noOfCards,
     })
   }
 
   render() {
+    const { decks } = this.props
     return(
       <View style={{ flex: 1}}>
         <ScrollView>
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
-            {mockData.map(deck => (
+            {decks
+              .filter(deck => deck.title)
+              .map(deck => (
                 <DeckView
                   key={deck.title}
                   title={deck.title}
-                  noOfCards={deck.noOfCard}
-                  onPress={() => this.onPressDeckDetails(deck.title, deck.noOfCard)}
+                  noOfCards={deck.questions ? deck.questions.length: 0}
+                  onPress={() => this.onPressDeckDetails(deck.title)}
                 />
               ))}
           </View>
@@ -78,3 +73,12 @@ const styles = StyleSheet.create({
     width: 300,
   }
 })
+
+function mapStateToProps(state) {
+  let { _persist, ...decks } = state
+  return {
+    decks: Object.values(decks)
+  }
+}
+
+export default connect(mapStateToProps, actions)(Home)

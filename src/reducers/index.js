@@ -1,14 +1,15 @@
 import { ADD_DECK, ADD_QUIZ } from '../actions'
 
 function decks (state = {}, action) {
+  const { deckTitle } = action
   switch (action.type) {
     case ADD_DECK :
-      const { deckTitle } = action
       return {
         ...state,
         [deckTitle]: {
           ...state[deckTitle],
-          ['title']: deckTitle,
+          title: deckTitle,
+          questions: [],
         },
       }
     case ADD_QUIZ :
@@ -17,15 +18,14 @@ function decks (state = {}, action) {
         ...state,
         [deckTitle]: {
           ...state[deckTitle],
-          [questions]: [
-            ...state[deckTitle][questions],
+          questions: [
+            ...state[deckTitle]['questions'],
             {
               question,
               answer,
             },
-          ]
+          ],
         },
-        ...action.quizObject
       }
     default :
       return state

@@ -6,7 +6,8 @@ export const addDeck = deckTitle => ({
   deckTitle,
 })
 
-export const addQuiz = quizObject => ({
+export const addQuiz = (deckTitle, quizObject) => ({
   type: ADD_QUIZ,
+  deckTitle,
   quizObject,
 })

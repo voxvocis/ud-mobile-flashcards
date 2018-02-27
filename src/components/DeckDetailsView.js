@@ -3,14 +3,13 @@ import { View, Text, Button, ScrollView, StyleSheet } from 'react-native'
 import TextButton from './TextButton'
 import NotFound from './NotFound'
 import { connect } from 'react-redux'
-import * as actions from '../actions'
 
 /*
   Individual Deck View
   displays the title of the Deck -DONE
   displays the number of cards in the deck -DONE
   displays an option to start a quiz on this specific deck
-  An option to add a new question to the deck
+  An option to add a new question to the deck -DONE
 */
 
 class DeckDetailsView extends Component {
@@ -29,24 +28,41 @@ class DeckDetailsView extends Component {
     }
   }
 
+  createCard = () => {
+    const { title } = this.props.navigation.state.params
+    this.props.navigation.navigate('CreateCardView', {
+      title,
+    })
+  }
+
+  startQuiz = () => {
+    const { title } = this.props.navigation.state.params
+    const { questions } = this.props.decks[title]
+    this.props.navigation.navigate('QuizView', {
+      title,
+      questions,
+    })
+  }
+
   render() {
-    const { title, noOfCards } = this.props.navigation.state.params
+    const { title } = this.props.navigation.state.params
+    const { questions } = this.props.decks[title]
     return(
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <View style={{ marginTop: 30 }}>
           <Text style={styles.heading}>{title}</Text>
         </View>
         <View style={{alignSelf: 'center' }}>
-          <Text style={styles.paragraph}>{noOfCards} cards</Text>
+          <Text style={styles.paragraph}>{questions ? questions.length : 0} cards</Text>
         </View>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 80}}>
           <Button
              title="Add Card"
-             onPress={() => this.props.navigation.navigate('CreateCardView')}
+             onPress={this.createCard}
            />
            <Button
               title="Start Quiz"
-              onPress={() => this.props.navigation.navigate('QuizView')}
+              onPress={this.startQuiz}
             />
         </View>
       </View>
@@ -75,8 +91,11 @@ const styles = StyleSheet.create({
   }
 })
 
-// function mapStateToProps(state) {
-//   return { todos: state.todos }
-// }
+function mapStateToProps(state) {
+  let { _persist, ...decks } = state
+  return {
+    decks: decks,
+  }
+}
 
-export default connect(null, actions)(DeckDetailsView)
+export default connect(mapStateToProps)(DeckDetailsView)
