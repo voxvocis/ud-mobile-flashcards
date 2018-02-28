@@ -54,8 +54,8 @@ class DeckDetailsView extends Component {
 
   startQuiz = () => {
     const { title } = this.props.navigation.state.params
-    const { questions } = this.props.decks[title]
-    if (true) {
+    const { questions } = this.props.decks.filter(deck => deck.title === title)[0]
+    if (!questions || questions.length === 0) {
       this.alertUser()
     } else {
       this.props.navigation.navigate('QuizView', {
@@ -67,7 +67,8 @@ class DeckDetailsView extends Component {
 
   render() {
     const { title } = this.props.navigation.state.params
-    const { questions } = this.props.decks[title]
+    console.log(this.props.decks)
+    const { questions } = this.props.decks.filter(deck => deck.title === title)[0]
     return(
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <View style={{ marginTop: 30 }}>
@@ -113,9 +114,9 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
-  let { _persist, ...decks } = state
+  let { decks } = state
   return {
-    decks: decks,
+    decks: Object.values(decks),
   }
 }
 

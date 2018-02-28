@@ -6,6 +6,7 @@ With Mobile Flashcard a user can create unlimited decks of questions and quiz th
 ## Install and launch
 
 This project has been tested on a iPhone X - iOS 11.0.
+
 To install and start, run the following commands in this directory:
 
 * `npm/yarn install`

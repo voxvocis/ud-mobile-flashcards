@@ -13,6 +13,12 @@ import * as actions from '../actions'
 */
 
 class Home extends Component {
+  componentDidMount() {
+    if (!this.props.notified) {
+      this.props.setLocalNotification()
+    }
+  }
+
   constructor(props) {
     super(props)
   }
@@ -28,12 +34,12 @@ class Home extends Component {
 
   render() {
     const { decks } = this.props
+    console.log(decks);
     return(
       <View style={{ flex: 1}}>
         <ScrollView>
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
             {decks
-              .filter(deck => deck.title)
               .map(deck => (
                 <DeckView
                   key={deck.title}
@@ -75,9 +81,10 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
-  let { _persist, ...decks } = state
+  let { decks, notifications } = state
   return {
-    decks: Object.values(decks)
+    decks: Object.values(decks),
+    notified: notifications.notified,
   }
 }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, Button, ScrollView, StyleSheet } from 'react-native'
 import TextButton from './TextButton'
 import NotFound from './NotFound'
+import { connect } from 'react-redux'
 
 /*
   Quiz View
@@ -26,7 +27,7 @@ When the score is displayed, buttons are displayed to either start the quiz over
 Both the 'Restart Quiz' and 'Back to Deck' buttons route correctly to their respective views. -DONE
 */
 
-export default class QuizView extends Component {
+class QuizView extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -67,6 +68,9 @@ export default class QuizView extends Component {
     const nextQuestion = this.state.questionNo + 1
 
     if (nextQuestion < questions.length) {
+      if (!this.props.notified) {
+        this.props.toggleNotification()
+      }
       this.setState({
         questionNo: nextQuestion,
       })
@@ -174,3 +178,12 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
   }
 })
+
+function mapStateToProps(state) {
+  let { notifications } = state
+  return {
+    notified: notifications.notified,
+  }
+}
+
+export default connect(mapStateToProps)(QuizView)
