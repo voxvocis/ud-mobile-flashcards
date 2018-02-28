@@ -97,6 +97,7 @@ export default class QuizView extends Component {
   render() {
     const { questionNo, numberOfCards, showQuestion, displayResult, numberOfCorrectAnswers } = this.state
     const { question, answer } = this.state.questions[questionNo]
+    const { title } = this.props.navigation.state.params
     return (
       <View style={{ flex: 1 }}>
         {!displayResult ? (
@@ -107,7 +108,7 @@ export default class QuizView extends Component {
             <View style={{alignSelf: 'center' }}>
               <Button
                  style={styles.paragraph}
-                 title={showQuestion ? 'Answer' : 'Question'}
+                 title={showQuestion ? 'Show Answer' : 'Show Question'}
                  onPress={this.displayAnswer}
                />
             </View>
@@ -122,7 +123,7 @@ export default class QuizView extends Component {
                 />
             </View>
             <View style={{alignSelf: 'center', marginBottom: 100}}>
-              <Text style={styles.paragraph}>Cards left: {numberOfCards - (questionNo + 1)}</Text>
+              <Text style={styles.paragraph}>Questions left: {numberOfCards - (questionNo + 1)}</Text>
             </View>
           </View>
         ) : (
@@ -139,7 +140,7 @@ export default class QuizView extends Component {
                  onPress={this.reset}
                />
                <Button
-                  title="Back to Deck"
+                  title={`Back to ${title} Deck`}
                   onPress={() => this.props.navigation.goBack()}
                 />
             </View>

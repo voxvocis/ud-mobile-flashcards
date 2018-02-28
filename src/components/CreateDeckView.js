@@ -56,7 +56,7 @@ class CreateDeckView extends Component {
           />
         </View>
         <Button
-           title="Submit"
+           title="Create Deck"
            onPress={this.submitCard}
          />
       </View>

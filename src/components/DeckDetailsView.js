@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, Button, ScrollView, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  Button,
+  ScrollView,
+  StyleSheet,
+  Alert,
+} from 'react-native'
 import TextButton from './TextButton'
 import NotFound from './NotFound'
 import { connect } from 'react-redux'
@@ -35,13 +42,27 @@ class DeckDetailsView extends Component {
     })
   }
 
+  alertUser = () => {
+    Alert.alert(
+      'Deck is empty',
+      'Add some questions!',
+      [
+        {text: 'OK', onPress: () => this.createCard()},
+      ],
+    )
+  }
+
   startQuiz = () => {
     const { title } = this.props.navigation.state.params
     const { questions } = this.props.decks[title]
-    this.props.navigation.navigate('QuizView', {
-      title,
-      questions,
-    })
+    if (true) {
+      this.alertUser()
+    } else {
+      this.props.navigation.navigate('QuizView', {
+        title,
+        questions,
+      })
+    }
   }
 
   render() {
@@ -57,13 +78,13 @@ class DeckDetailsView extends Component {
         </View>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 80}}>
           <Button
-             title="Add Card"
+             title="Start Quiz"
+             onPress={this.startQuiz}
+           />
+          <Button
+             title="Create New Question"
              onPress={this.createCard}
            />
-           <Button
-              title="Start Quiz"
-              onPress={this.startQuiz}
-            />
         </View>
       </View>
     )
