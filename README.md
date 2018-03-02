@@ -1,6 +1,6 @@
 # Mobile Flashcards
 This is my implementation of the Mobile Flashcards project that's part of the Udacity's React Nanodegree Program.
-With Mobile Flashcard a user can create unlimited decks of questions and quiz them selfs in a game like way.
+With Mobile Flashcard a user can create unlimited decks of questions and quiz themselves in a game-like way.
 
 
 ## Install and launch
