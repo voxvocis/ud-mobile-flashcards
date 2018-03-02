@@ -1,31 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, Button, ScrollView, StyleSheet } from 'react-native'
 import TextButton from './TextButton'
-import NotFound from './NotFound'
 import { connect } from 'react-redux'
-
-/*
-  Quiz View
-  displays a card question -DONE
-  an option to view the answer (flips the card)
-  a "Correct" button -DONEish
-  an "Incorrect" button -DONEish
-  the number of cards left in the quiz -DONE
-  Displays the percentage correct once the quiz is complete
-*/
-
-/*
-The Quiz view starts with a question from the selected deck. -DONE
-The question is display, along with a button to show the answer. -DONE
-Pressing the 'Show Answer' button displays the answer. -DONE
-Buttons are included to allow the student to mark their guess as 'Correct' or 'Incorrect' -DONE
-The view displays the number of questions remaining. -DONE
-When the last question is answered, a score is displayed.
-This can be displayed as a percentage of correct answers or just the number of questions answered correctly. -DONE
-
-When the score is displayed, buttons are displayed to either start the quiz over or go back to the Individual Deck view.
-Both the 'Restart Quiz' and 'Back to Deck' buttons route correctly to their respective views. -DONE
-*/
+import * as actions from '../actions'
 
 class QuizView extends Component {
   constructor(props) {
@@ -68,8 +45,9 @@ class QuizView extends Component {
     const nextQuestion = this.state.questionNo + 1
 
     if (nextQuestion < questions.length) {
-      if (!this.props.notified) {
+      if (this.props.notified) {
         this.props.toggleNotification()
+        this.props.setLocalNotification()
       }
       this.setState({
         questionNo: nextQuestion,
@@ -105,47 +83,48 @@ class QuizView extends Component {
     return (
       <View style={{ flex: 1 }}>
         {!displayResult ? (
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={styles.quizContainer}>
             <View style={{ marginTop: 100 }}>
               <Text style={styles.heading}>{showQuestion ? question : answer}</Text>
             </View>
             <View style={{alignSelf: 'center' }}>
               <Button
-                 style={styles.paragraph}
-                 title={showQuestion ? 'Show Answer' : 'Show Question'}
-                 onPress={this.displayAnswer}
+                color='#f4509e'
+                style={styles.paragraph}
+                title={showQuestion ? 'Show Answer' : 'Show Question'}
+                onPress={this.displayAnswer}
                />
             </View>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 100}}>
-              <Button
-                 title="Correct"
-                 onPress={this.pressCorrect}
-               />
-               <Button
-                  title="Incorrect"
-                  onPress={this.pressIncorrect}
-                />
+            <View style={styles.buttonContainer}>
+              <TextButton onPress={this.pressCorrect}>
+                Correct
+              </TextButton>
+              <TextButton onPress={this.pressIncorrect}>
+                Incorrect
+              </TextButton>
             </View>
             <View style={{alignSelf: 'center', marginBottom: 100}}>
               <Text style={styles.paragraph}>Questions left: {numberOfCards - (questionNo + 1)}</Text>
             </View>
           </View>
         ) : (
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={styles.quizContainer}>
             <View style={{ marginTop: 100 }}>
               <Text style={styles.heading}>You guessed correct:</Text>
             </View>
             <View style={{alignSelf: 'center' }}>
               <Text style={styles.paragraph}>{`${numberOfCorrectAnswers} times`}</Text>
             </View>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 100}}>
+            <View style={styles.buttonContainer}>
               <Button
-                 title="Restart Quiz"
-                 onPress={this.reset}
+                color='#f4509e'
+                title="Restart Quiz"
+                onPress={this.reset}
                />
                <Button
-                  title={`Back to ${title} Deck`}
-                  onPress={() => this.props.navigation.goBack()}
+                color='#f4509e'
+                title={`Back to ${title} Deck`}
+                onPress={() => this.props.navigation.goBack()}
                 />
             </View>
           </View>
@@ -156,6 +135,17 @@ class QuizView extends Component {
 }
 
 const styles = StyleSheet.create({
+  quizContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 100,
+  },
   touchContainer: {
     flex: 1,
     alignItems: 'center',
@@ -186,4 +176,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(QuizView)
+export default connect(mapStateToProps, actions)(QuizView)

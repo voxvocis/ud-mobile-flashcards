@@ -5,29 +5,17 @@ import {
   Button,
   ScrollView,
   StyleSheet,
-  Alert,
 } from 'react-native'
 import TextButton from './TextButton'
-import NotFound from './NotFound'
 import { connect } from 'react-redux'
+import { alertUser } from '../utils/helpers'
 
-/*
-  Individual Deck View
-  displays the title of the Deck -DONE
-  displays the number of cards in the deck -DONE
-  displays an option to start a quiz on this specific deck
-  An option to add a new question to the deck -DONE
-*/
 
 class DeckDetailsView extends Component {
   constructor(props) {
     super(props)
   }
-  /*
-    if we make navigationOptions a function then React Navigation will call it with an object
-    containing { navigation, navigationOptions, screenProps } -- in this case, all we care about is navigation,
-    which is the same object that is passed to your screen props as this.props.navigation.
-  */
+
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
@@ -42,21 +30,15 @@ class DeckDetailsView extends Component {
     })
   }
 
-  alertUser = () => {
-    Alert.alert(
-      'Deck is empty',
-      'Add some questions!',
-      [
-        {text: 'OK', onPress: () => this.createCard()},
-      ],
-    )
-  }
-
   startQuiz = () => {
     const { title } = this.props.navigation.state.params
     const { questions } = this.props.decks.filter(deck => deck.title === title)[0]
     if (!questions || questions.length === 0) {
-      this.alertUser()
+      alertUser(
+        'Deck is empty',
+        'Add some questions!',
+        this.createCard
+      )
     } else {
       this.props.navigation.navigate('QuizView', {
         title,
@@ -70,21 +52,23 @@ class DeckDetailsView extends Component {
     console.log(this.props.decks)
     const { questions } = this.props.decks.filter(deck => deck.title === title)[0]
     return(
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.container}>
         <View style={{ marginTop: 30 }}>
           <Text style={styles.heading}>{title}</Text>
         </View>
         <View style={{alignSelf: 'center' }}>
           <Text style={styles.paragraph}>{questions ? questions.length : 0} cards</Text>
         </View>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 80}}>
+        <View style={styles.buttonContainer}>
           <Button
-             title="Start Quiz"
-             onPress={this.startQuiz}
+            color="#f4509e"
+            title="Start Quiz"
+            onPress={this.startQuiz}
            />
           <Button
-             title="Create New Question"
-             onPress={this.createCard}
+            color="#f4509e"
+            title="Create New Question"
+            onPress={this.createCard}
            />
         </View>
       </View>
@@ -93,6 +77,11 @@ class DeckDetailsView extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   touchContainer: {
     flex: 1,
     alignItems: 'center',
@@ -110,6 +99,12 @@ const styles = StyleSheet.create({
     color: '#f4509e',
     fontSize: 15,
     fontWeight: 'normal',
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 80,
   }
 })
 

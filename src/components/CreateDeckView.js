@@ -1,18 +1,13 @@
 import React, { Component } from 'react'
-import { View, Text, Button, TextInput, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet
+} from 'react-native'
 import TextButton from './TextButton'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-
-/*
-  New Deck View
-  An option to enter in the title for the new deck -DONE
-  An option to submit the new deck title -DONE
-
-  Submit the data and navigate back -DONE
-  The view includes a form for creating a new deck - which should just be an input for the title and a 'Create Deck' button.
-  Pressing the button correctly creates the deck and routes the user to the Individual Deck view for the new deck.
-*/
 
 class CreateDeckView extends Component {
   constructor(props) {
@@ -24,18 +19,16 @@ class CreateDeckView extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
-      title: params ? params.title : 'Create Deck View',
+      title: params ? params.title : 'Create a new Deck',
     }
   }
 
   submitCard = () => {
-    // Add question
     const { title } = this.state
     if (!title) {
       return
     }
     this.props.addDeck(title)
-    // Navigate back
     this.props.navigation.navigate('DeckDetailsView', {
       title,
     })
@@ -55,10 +48,11 @@ class CreateDeckView extends Component {
             value={this.state.title}
           />
         </View>
-        <Button
-           title="Create Deck"
-           onPress={this.submitCard}
-         />
+        <View style={styles.submitContainer}>
+          <TextButton onPress={this.submitCard}>
+            Create Deck
+          </TextButton>
+        </View>
       </View>
     )
   }
@@ -84,7 +78,11 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     marginBottom: 30,
-  }
+  },
+  submitContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
 })
 
 export default connect(null, actions)(CreateDeckView)

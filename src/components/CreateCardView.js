@@ -1,19 +1,14 @@
 import React, { Component } from 'react'
-import { View, Text, Button, StyleSheet, TextInput } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput
+} from 'react-native'
 import TextButton from './TextButton'
-import NotFound from './NotFound'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 
-
-/*
-  New Question View
-  An option to enter in the question -DONE
-  An option to enter in the answer -DONE
-  An option to submit the new question -DONE
-
-  Submit the data and navigate back -DONE
-*/
 
 class CreateCardView extends Component {
   constructor(props) {
@@ -31,9 +26,9 @@ class CreateCardView extends Component {
   }
 
   submitQuestion = () => {
-    // Add question
     const { question, answer } = this.state
     const { title } = this.props.navigation.state.params
+
     if (!question || !answer) {
       return
     }
@@ -41,14 +36,14 @@ class CreateCardView extends Component {
       question,
       answer,
     })
-    // Navigate back
+
     this.props.navigation.goBack()
   }
 
   render() {
     return(
       <View style={{ flex: 1 }}>
-        <View style={{justifyContent: 'center', alignItems: 'center' }}>
+        <View style={styles.headingContainer}>
           <Text style={styles.heading}> Add a new Question </Text>
         </View>
         <View>
@@ -67,16 +62,21 @@ class CreateCardView extends Component {
             value={this.state.answer}
           />
         </View>
-        <Button
-           title="Submit"
-           onPress={this.submitQuestion}
-         />
+        <View style={styles.submitContainer}>
+          <TextButton onPress={this.submitQuestion}>
+            Submit
+          </TextButton>
+        </View>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  headingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   heading: {
     color: '#f4509e',
     fontSize: 30,
@@ -96,7 +96,11 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     marginBottom: 30,
-  }
+  },
+  submitContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
 })
 
 export default connect(null, actions)(CreateCardView)

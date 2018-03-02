@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 80,
     backgroundColor: '#f4509e',
+    borderRadius: 5,
     width: 300,
   },
   heading: {

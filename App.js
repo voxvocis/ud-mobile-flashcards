@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Platform, StatusBar } from 'react-native'
+import { View } from 'react-native'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
@@ -8,24 +8,15 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 import { PersistGate } from 'redux-persist/es/integration/react'
 import rootReducer from './src/reducers'
 import { composeWithDevTools } from 'remote-redux-devtools'
-import { TabNavigator, StackNavigator } from 'react-navigation'
-import NotFound from './src/components/NotFound'
+import { StackNavigator } from 'react-navigation'
 import Home from './src/components/Home'
 import DeckDetailsView from './src/components/DeckDetailsView'
 import QuizView from './src/components/QuizView'
 import CreateDeckView from './src/components/CreateDeckView'
 import CreateCardView from './src/components/CreateCardView'
 
-
-/*
-  TODO:
-  fix https://github.com/rt2zz/redux-persist
-  fix redux
-
-*/
-
 const persistConfig = {
-  key: 'flashcards2',
+  key: 'flashcards4',
   storage,
 }
 
@@ -39,9 +30,6 @@ const store = createStore(
 
 const persistor = persistStore(store)
 
-/*
-  StackNavigator is a function that takes a route configuration object and an options object and returns a React component.
-*/
 const MainNavigator = StackNavigator(
   {
     Home: {

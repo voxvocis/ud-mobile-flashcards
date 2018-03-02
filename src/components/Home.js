@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
-import { View, Text, Button, ScrollView, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  Button,
+  ScrollView,
+  StyleSheet
+} from 'react-native'
 import { connect } from 'react-redux'
-import TextButton from './TextButton'
 import DeckView from './DeckView'
 import * as actions from '../actions'
-
-/*
-  Deck List View (Default View)
-  displays the title of each Deck -DONE
-  displays the number of cards in each deck -DONE
-  use real data -DONE
-*/
 
 class Home extends Component {
   componentDidMount() {
@@ -34,11 +32,10 @@ class Home extends Component {
 
   render() {
     const { decks } = this.props
-    console.log(decks);
     return(
       <View style={{ flex: 1}}>
         <ScrollView>
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
+          <View style={styles.deckContainer}>
             {decks
               .map(deck => (
                 <DeckView
@@ -54,6 +51,7 @@ class Home extends Component {
           <Button
             style={styles.button}
             title="New Deck"
+            color="white"
             onPress={() => this.props.navigation.navigate('CreateDeckView')}
           />
         </View>
@@ -63,20 +61,32 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
+  deckContainer: {
     flex: 1,
-    marginBottom: 100,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  buttonContainer: {
+    backgroundColor: '#f4509e',
+    flex: 1,
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    right: 0,
+    paddingBottom: 30,
     marginTop: 20,
-    borderWidth: 1,
-    borderColor: '#d6d7da',
+    borderTopWidth: 1,
+    borderColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 2,
   },
   button: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 80,
-    backgroundColor: '#f4509e',
-    width: 300,
   }
 })
 
